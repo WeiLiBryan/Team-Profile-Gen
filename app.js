@@ -33,13 +33,14 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
-function init() {
+async function init() {
     console.log("Please build your team");
-    const manager = managerInput();
+    const manager = await managerInput();
+    
 }
 
-function managerInput() {
-    return inquirer.prompt([
+async function managerInput() {
+    await inquirer.prompt([
         {
             type: "input",
             name: "manName",
@@ -60,5 +61,19 @@ function managerInput() {
             name: "manOff",
             message: "What is the team manager's office number?",
         },
-    ]);
+    ])
+    .then(val => {
+        const manager = setManager(val);
+        return manager;
+    })
 }
+
+function setManager(manageDetails){
+    const manager = new Manager(manageDetails.manName, manageDetails.manId, manageDetails.manEmail, manageDetails.manOff);
+    console.log(manager);
+    return manager;
+}
+
+
+
+init();
