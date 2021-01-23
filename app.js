@@ -33,3 +33,32 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+function init() {
+    console.log("Please build your team");
+    const manager = managerInput();
+}
+
+function managerInput() {
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "manName",
+            message: "What is the team manager's name?",
+        },
+        {
+            type: "input",
+            name: "manId",
+            message: "What is the team manager's id?",
+        },
+        {
+            type: "input",
+            name: "manEmail",
+            message: "What is the team manager's email?",
+        },
+        {
+            type: "input",
+            name: "manOff",
+            message: "What is the team manager's office number?",
+        },
+    ]);
+}
