@@ -4,18 +4,18 @@
 
 ## Table of Contents
 
-[Description](#Description)
-[Prerequisites](#Prerequisites)
-[Technologies](#Technologies)
-[Video Walkthrough](#Video-Walktrough)
-[Code Snippet](#Code-Snippet)
-[Authors](#Authors)
-[License](#License)
-[Acknowledgements](#Acknowledgements)
+[Description](#Description) |
+[Prerequisites](#Prerequisites) |
+[Technologies](#Technologies-Used) |
+[Video Walkthrough](#Video-Walkthrough) |
+[Code Snippet](#Code-Snippet) |
+[Authors](#Authors) |
+[License](#License) |
+[Acknowledgements](#Acknowledgements) |
 
 ## Description
 
-Application will generate a markdown file based on prompts given to user
+Application will in take in info from terminal input and generate an HTML file that will contain the information given.
 
 ## Prerequisites
 
@@ -33,57 +33,29 @@ None
 ## Code Snippet
 
 ```Javascript
-const ask = () => {
-    return inquirer.prompt([
-        {
-            type: 'input',
-            name: 'github',
-            message: questions[0],
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: questions[1],
-        },
-        {
-            type: 'input',
-            name: 'project',
-            message: questions[2],
-        },
-        {
-            type: 'input',
-            name: 'description',
-            message: questions[3],
-        },
-        {
-            type: 'input',
-            name: 'license',
-            message: questions[4],
-        },
-        {
-            type: 'input',
-            name: 'dependencies',
-            message: questions[5],
-        },
-        {
-            type: 'input',
-            name: 'test',
-            message: questions[6],
-        },
-        {
-            type: 'input',
-            name: 'info',
-            message: questions[7],
-        },
-        {
-            type: 'input',
-            name: 'contribute',
-            message: questions[8],
-        },
+// ASK IF USER WOULD LIKE TO ADD A NEW MEMBER
+let choice = await askNewMember();
 
-    ]);
-};
-};
+// WILL LOOP UNTIL NO MORE IS CHOSEN
+while(choice.newMember !== 'No More'){
+    switch (choice.newMember){
+        // NEW ENGINEER IS CHOSEN
+        case 'Engineer':
+            const eVal = await engineerInput();
+            let engineer = new Engineer(eVal.name, eVal.id, eVal.email, eVal.git);
+            employees.push(engineer);
+            break;
+        
+        // NEW INTERN IS CHOSEN
+        case 'Intern':
+            const iVal = await internInput();
+            let intern = new Intern(iVal.name, iVal.id, iVal.email, iVal.school);
+            employees.push(intern);
+            break;
+    }
+
+    choice = await askNewMember();
+}
 ```
 
 ## Authors
@@ -100,5 +72,6 @@ const ask = () => {
 ## Acknowledgements
 
 - [Stack Overflow](https://stackoverflow.com)
+- [w3schools](https://w3schools.com)
 
 ### [Back to Table of Contents](#table-of-contents)
