@@ -40,15 +40,14 @@ const interns = [];
 async function init() {
     console.log("Please build your team");
     // RETRIEVE INFO FOR MANAGER
-    // const mVal = await managerInput();
-    // const manager = new Manager(mVal.name, mVal.id, mVal.email, mVal.off);
+    const mVal = await managerInput();
+    const manager = new Manager(mVal.name, mVal.id, mVal.email, mVal.off);
 
     // ASK IF USER WOULD LIKE TO ADD A NEW MEMBER
     let choice = await askNewMember();
-    
+
+    // WILL LOOP UNTIL NO MORE IS CHOSEN
     while(choice.newMember !== 'No More'){
-        console.log("Engineers: ", engineers);
-        console.log("Interns: ", interns);
         switch (choice.newMember){
             case 'Engineer':
                 const eVal = await engineerInput();
@@ -65,6 +64,11 @@ async function init() {
 
         choice = await askNewMember();
     }
+
+    console.log("Creating Team...");
+
+    // SENDS THE MANAGER OBJECT, ENGINEERS ARRAY AND INTERN ARRAY TO HTML GENERATOR
+    // htmlGen(manager, engineers, interns);
 }
 
 function managerInput() {
@@ -90,6 +94,22 @@ function managerInput() {
             message: "What is the team manager's office number?",
         },
     ]);
+}
+
+const managerCard = (manager) => {
+`<div class="card employee-card">
+<div class="card-header">
+    <h2 class="card-title">${manager.name}</h2>
+    <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>${manager.role}</h3>
+</div>
+<div class="card-body">
+    <ul class="list-group">
+        <li class="list-group-item">ID: ${manager.id}</li>
+        <li class="list-group-item">Email: <a href="mailto:${manager.email}">${manager.email}</a></li>
+        <li class="list-group-item">Office number: ${manager.officeNumber}</li>
+    </ul>
+</div>
+</div>`
 }
 
 function askNewMember() {
@@ -128,6 +148,22 @@ function engineerInput() {
     ]);
 }
 
+const engineerCard = (engineer) => {
+`<div class="card employee-card">
+<div class="card-header">
+    <h2 class="card-title>${engineer.name}</h2>
+    <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>${engineer.role}</h3>
+</div>
+<div class="card-body">
+    <ul class="list-group">
+        <li class="list-group-item">ID: ${engineer.id}</li>
+        <li class="list-group-item">Email: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
+        <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.github}" target="_blank" rel="noopener noreferrer">${engineer.github}</a></li>
+    </ul>
+</div>
+</div>`
+}
+
 function internInput() {
     return inquirer.prompt([
         {
@@ -147,10 +183,31 @@ function internInput() {
         },
         {
             type: "input",
-            name: "git",
+            name: "school",
             message: "What is the intern's school?",
         },
     ]);
 }
+
+const internCard = (intern) => {
+`<div class="card employee-card">
+<div class="card-header">
+    <h2 class="card-title">${intern.name}</h2>
+    <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>${intern.role}</h3>
+</div>
+<div class="card-body">
+    <ul class="list-group">
+        <li class="list-group-item">ID: ${intern.id}</li>
+        <li class="list-group-item">Email: <a href="mailto:${intern.email}">${intern.email}</a></li>
+        <li class="list-group-item">School: ${intern.school}</li>
+    </ul>
+</div>
+</div>`
+
+}
+
+// function htmlGen() {
+//     fs.readFile('./assets/templates/engineer.html')
+// }
 
 init();
