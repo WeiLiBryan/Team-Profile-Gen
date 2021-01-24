@@ -28,7 +28,7 @@ None
 
 ## Video Walkthrough
 
-[Youtube Link](https://youtu.be/FE3puOtUL-s)
+[Youtube Link](https://youtu.be/ZHY9xtBeUSk)
 
 ## Code Snippet
 
