@@ -33,47 +33,124 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+const engineers = [];
+const interns = [];
+
 async function init() {
     console.log("Please build your team");
-    const manager = await managerInput();
+    // RETRIEVE INFO FOR MANAGER
+    // const mVal = await managerInput();
+    // const manager = new Manager(mVal.name, mVal.id, mVal.email, mVal.off);
+
+    // ASK IF USER WOULD LIKE TO ADD A NEW MEMBER
+    let choice = await askNewMember();
     
+    while(choice.newMember !== 'No More'){
+        console.log("Engineers: ", engineers);
+        console.log("Interns: ", interns);
+        switch (choice.newMember){
+            case 'Engineer':
+                const eVal = await engineerInput();
+                const engineer = new Engineer(eVal.name, eVal.id, eVal.email, eVal.git);
+                engineers.push(engineer);
+                break;
+            
+            case 'Intern':
+                const iVal = await internInput();
+                const intern = new Intern(iVal.name, iVal.id, iVal.email, iVal.school);
+                interns.push(intern);
+                break;
+        }
+
+        choice = await askNewMember();
+    }
 }
 
-async function managerInput() {
-    await inquirer.prompt([
+function managerInput() {
+    return inquirer.prompt([
         {
             type: "input",
-            name: "manName",
+            name: "name",
             message: "What is the team manager's name?",
         },
         {
             type: "input",
-            name: "manId",
+            name: "id",
             message: "What is the team manager's id?",
         },
         {
             type: "input",
-            name: "manEmail",
+            name: "email",
             message: "What is the team manager's email?",
         },
         {
             type: "input",
-            name: "manOff",
+            name: "off",
             message: "What is the team manager's office number?",
         },
-    ])
-    .then(val => {
-        const manager = setManager(val);
-        return manager;
-    })
+    ]);
 }
 
-function setManager(manageDetails){
-    const manager = new Manager(manageDetails.manName, manageDetails.manId, manageDetails.manEmail, manageDetails.manOff);
-    console.log(manager);
-    return manager;
+function askNewMember() {
+    return inquirer.prompt([
+        {
+            type: "list",
+            name: "newMember",
+            message: "Which type of team member would you like to add?",
+            choices: ['Engineer', 'Intern', 'No More'],
+        }
+    ]);
 }
 
+function engineerInput() {
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the engineer's name?",
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the engineer's id?",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the engineer's email?",
+        },
+        {
+            type: "input",
+            name: "git",
+            message: "What is the engineer's github?",
+        },
+    ]);
+}
 
+function internInput() {
+    return inquirer.prompt([
+        {
+            type: "input",
+            name: "name",
+            message: "What is the intern's name?",
+        },
+        {
+            type: "input",
+            name: "id",
+            message: "What is the intern's id?",
+        },
+        {
+            type: "input",
+            name: "email",
+            message: "What is the intern's email?",
+        },
+        {
+            type: "input",
+            name: "git",
+            message: "What is the intern's school?",
+        },
+    ]);
+}
 
 init();
